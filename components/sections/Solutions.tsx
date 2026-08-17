@@ -105,6 +105,7 @@ export default function Solutions() {
             What we offer
           </p>
           <h2
+            className="flex flex-wrap gap-x-[0.22em] gap-y-1 cursor-default"
             style={{
               fontSize: "clamp(1.4rem, 2.2vw, 2rem)",
               fontFamily: "var(--font-syne, sans-serif)",
@@ -113,7 +114,23 @@ export default function Solutions() {
               lineHeight: 1.2,
             }}
           >
-            Built for what&apos;s next.
+            {["Built", "for", "what's", "next."].map((word, i) => {
+              const highlight = ["what's", "next."].includes(word);
+              return (
+                <motion.span
+                  key={i}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    color: highlight ? "#A855F7" : "#818cf8",
+                    textShadow: highlight ? "0px 0px 15px rgba(168,85,247,0.6)" : "0px 0px 15px rgba(129,140,248,0.6)",
+                  }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className={`inline-block transition-colors ${highlight ? "gradient-text" : ""}`}
+                >
+                  {word}
+                </motion.span>
+              );
+            })}
           </h2>
         </div>
 

@@ -27,11 +27,26 @@ export default function Process() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <SectionLabel text="How we work" />
         <h2
-          className="font-display font-bold text-white leading-tight mt-4 mb-16 lg:mb-24"
+          className="font-display font-bold text-white leading-tight mt-4 mb-16 lg:mb-24 flex flex-wrap gap-x-[0.22em] gap-y-2 cursor-default"
           style={{ fontSize: "clamp(2.2rem, 4.5vw, 4rem)" }}
         >
-          From ambition{" "}
-          <span className="gradient-text">to acceleration.</span>
+          {["From", "ambition", "to", "acceleration."].map((word, i) => {
+            const highlight = ["to", "acceleration."].includes(word);
+            return (
+              <motion.span
+                key={i}
+                whileHover={{ 
+                  scale: 1.05, 
+                  color: highlight ? "#A855F7" : "#8B5CF6",
+                  textShadow: highlight ? "0px 0px 20px rgba(168,85,247,0.6)" : "0px 0px 20px rgba(139,92,246,0.6)",
+                }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className={`inline-block transition-colors ${highlight ? "gradient-text" : ""}`}
+              >
+                {word}
+              </motion.span>
+            );
+          })}
         </h2>
 
         {/* Desktop: horizontal timeline */}

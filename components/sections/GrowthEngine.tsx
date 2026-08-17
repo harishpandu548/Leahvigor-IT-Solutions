@@ -157,11 +157,26 @@ export default function GrowthEngine() {
         <div className="text-center mb-16">
           <SectionLabel text="How we work" className="justify-center mb-4" />
           <h2
-            className="font-display font-bold text-white leading-tight"
+            className="font-display font-bold text-white leading-tight flex flex-wrap justify-center gap-x-[0.22em] gap-y-2 cursor-default"
             style={{ fontSize: "clamp(2.2rem, 4.5vw, 4rem)" }}
           >
-            One partner.{" "}
-            <span className="gradient-text">Multiple growth engines.</span>
+            {["One", "partner.", "Multiple", "growth", "engines."].map((word, i) => {
+              const highlight = ["Multiple", "growth", "engines."].includes(word);
+              return (
+                <motion.span
+                  key={i}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    color: highlight ? "#A855F7" : "#8B5CF6",
+                    textShadow: highlight ? "0px 0px 20px rgba(168,85,247,0.6)" : "0px 0px 20px rgba(139,92,246,0.6)",
+                  }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className={`inline-block transition-colors ${highlight ? "gradient-text" : ""}`}
+                >
+                  {word}
+                </motion.span>
+              );
+            })}
           </h2>
         </div>
 

@@ -43,12 +43,26 @@ export default function FinalCTA() {
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
           <h2
-            className="font-display font-bold text-white leading-[0.95] mb-6"
+            className="font-display font-bold text-white leading-[0.95] mb-6 flex flex-wrap justify-center gap-x-[0.22em] gap-y-2 cursor-default"
             style={{ fontSize: "clamp(3rem, 8vw, 7.5rem)" }}
           >
-            Ready to accelerate
-            <br />
-            <span className="gradient-text-animated">your growth?</span>
+            {["Ready", "to", "accelerate", "your", "growth?"].map((word, i) => {
+              const highlight = ["your", "growth?"].includes(word);
+              return (
+                <motion.span
+                  key={i}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    color: highlight ? "#A855F7" : "#8B5CF6",
+                    textShadow: highlight ? "0px 0px 20px rgba(168,85,247,0.6)" : "0px 0px 20px rgba(139,92,246,0.6)",
+                  }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className={`inline-block transition-colors ${highlight ? "gradient-text-animated" : ""}`}
+                >
+                  {word}
+                </motion.span>
+              );
+            })}
           </h2>
 
           <p className="text-slate-400 text-lg md:text-xl max-w-xl mx-auto font-sans leading-relaxed mb-12">

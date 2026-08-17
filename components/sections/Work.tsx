@@ -38,11 +38,26 @@ export default function Work() {
         <SectionLabel text="Client work" />
         <div className="mt-4 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-12">
           <h2
-            className="font-display font-bold text-white leading-tight"
+            className="font-display font-bold text-white leading-tight flex flex-wrap gap-x-[0.22em] gap-y-2 cursor-default"
             style={{ fontSize: "clamp(2.2rem, 4.5vw, 4rem)" }}
           >
-            Work that moves{" "}
-            <span className="gradient-text">businesses forward.</span>
+            {["Work", "that", "moves", "businesses", "forward."].map((word, i) => {
+              const highlight = ["businesses", "forward."].includes(word);
+              return (
+                <motion.span
+                  key={i}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    color: highlight ? "#A855F7" : "#8B5CF6",
+                    textShadow: highlight ? "0px 0px 20px rgba(168,85,247,0.6)" : "0px 0px 20px rgba(139,92,246,0.6)",
+                  }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className={`inline-block transition-colors ${highlight ? "gradient-text" : ""}`}
+                >
+                  {word}
+                </motion.span>
+              );
+            })}
           </h2>
           <p className="text-slate-400 text-sm max-w-xs font-sans leading-relaxed">
             Partnerships built on strategy, delivered through execution.
