@@ -18,9 +18,9 @@ export default function HomePage() {
       <GrowthStatement />
       <Services />
       <GrowthEngine />
-      <Solutions />
       <WhyLeahvigor />
       <Work />
+      <Solutions />
       <Testimonials />
       <Process />
       <FinalCTA />

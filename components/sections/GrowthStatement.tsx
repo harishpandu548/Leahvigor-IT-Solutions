@@ -36,7 +36,7 @@ export default function GrowthStatement() {
           <div className="max-w-4xl mx-auto text-center">
             {/* H2 headline — split words */}
             <h2
-              className="font-display font-bold text-white leading-tight mb-4"
+              className="font-display font-bold text-white leading-tight mb-4 flex flex-wrap justify-center gap-x-[0.22em] gap-y-2 cursor-default"
               style={{ fontSize: "clamp(2.4rem, 5vw, 5rem)" }}
             >
               {words1.map((word, i) => (
@@ -44,13 +44,21 @@ export default function GrowthStatement() {
                   key={`w1-${i}`}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    color: "#8B5CF6",
+                    textShadow: "0px 0px 20px rgba(139,92,246,0.6)",
+                  }}
                   viewport={{ once: true, margin: "-10%" }}
                   transition={{
                     duration: 0.7,
                     delay: i * 0.05,
                     ease: [0.16, 1, 0.3, 1],
+                    scale: { duration: 0.2, ease: "easeOut" },
+                    color: { duration: 0.2 },
+                    textShadow: { duration: 0.2 }
                   }}
-                  className="inline-block mr-[0.22em]"
+                  className="inline-block transition-colors"
                 >
                   {word}
                 </motion.span>
@@ -58,7 +66,7 @@ export default function GrowthStatement() {
             </h2>
 
             <h2
-              className="font-display font-bold leading-tight mb-12"
+              className="font-display font-bold leading-tight mb-12 flex flex-wrap justify-center gap-x-[0.22em] gap-y-2 cursor-default"
               style={{ fontSize: "clamp(2.4rem, 5vw, 5rem)" }}
             >
               {words2.map((word, i) => {
@@ -68,13 +76,21 @@ export default function GrowthStatement() {
                     key={`w2-${i}`}
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
+                    whileHover={{ 
+                      scale: 1.05, 
+                      color: "#6366F1",
+                      textShadow: "0px 0px 20px rgba(99,102,241,0.6)",
+                    }}
                     viewport={{ once: true, margin: "-10%" }}
                     transition={{
                       duration: 0.7,
                       delay: 0.3 + i * 0.05,
                       ease: [0.16, 1, 0.3, 1],
+                      scale: { duration: 0.2, ease: "easeOut" },
+                      color: { duration: 0.2 },
+                      textShadow: { duration: 0.2 }
                     }}
-                    className={`inline-block mr-[0.22em] ${highlight ? "gradient-text" : "text-slate-300"}`}
+                    className={`inline-block transition-colors ${highlight ? "gradient-text" : "text-slate-300"}`}
                   >
                     {word}
                   </motion.span>

@@ -4,25 +4,25 @@ export type Service = {
   tagline: string;
   description: string;
   items: string[];
-  color: string;
   accentColor: string;
+  image: string;
 };
 
 export const services: Service[] = [
   {
     number: "01",
-    title: "IT Solutions",
-    tagline: "Build. Modernize. Scale.",
+    title: "Talent Acquisition",
+    tagline: "Find. Build. Grow.",
     description:
-      "Architect resilient technology ecosystems that support your business today and scale with tomorrow's ambitions.",
+      "Build high-performing teams with strategic talent acquisition designed around your growth objectives.",
     items: [
-      "Custom Software Development",
-      "IT Infrastructure & Support",
-      "Cloud Migration & Management",
-      "Cybersecurity & Risk Assessment",
+      "Executive Search & Placement",
+      "Technical Recruiting",
+      "Volume Recruiting",
+      "Employer Branding",
     ],
-    color: "from-blue-500/10 to-blue-600/5",
-    accentColor: "#3B82F6",
+    accentColor: "#8B5CF6",
+    image: "/services/telent.jpg",
   },
   {
     number: "02",
@@ -36,23 +36,23 @@ export const services: Service[] = [
       "Content Marketing",
       "Social Media Management",
     ],
-    color: "from-indigo-500/10 to-indigo-600/5",
     accentColor: "#6366F1",
+    image: "/services/digi.jpg",
   },
   {
     number: "03",
-    title: "Talent Acquisition",
-    tagline: "Find. Build. Grow.",
+    title: "IT Solutions",
+    tagline: "Build. Modernize. Scale.",
     description:
-      "Build high-performing teams with strategic talent acquisition designed around your growth objectives.",
+      "Architect resilient technology ecosystems that support your business today and scale with tomorrow's ambitions.",
     items: [
-      "Executive Search & Placement",
-      "Technical Recruiting",
-      "Volume Recruiting",
-      "Employer Branding",
+      "Custom Software Development",
+      "IT Infrastructure & Support",
+      "Cloud Migration & Management",
+      "Cybersecurity & Risk Assessment",
     ],
-    color: "from-violet-500/10 to-violet-600/5",
-    accentColor: "#8B5CF6",
+    accentColor: "#3B82F6",
+    image: "/services/it.jpg",
   },
   {
     number: "04",
@@ -66,7 +66,7 @@ export const services: Service[] = [
       "E-commerce Solutions",
       "CMS & Platform Integration",
     ],
-    color: "from-purple-500/10 to-purple-600/5",
     accentColor: "#A855F7",
+    image: "/services/website.jpg",
   },
 ];

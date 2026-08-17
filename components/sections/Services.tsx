@@ -1,206 +1,243 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ChevronDown } from "lucide-react";
 import { services } from "@/data/services";
-import SectionLabel from "@/components/ui/SectionLabel";
 
 export default function Services() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [mobileOpen, setMobileOpen] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const totalSlides = services.length;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const el = containerRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const scrolledInto = -rect.top;
+      const scrollableHeight = el.offsetHeight - window.innerHeight;
+      if (scrolledInto < 0 || scrollableHeight <= 0) return;
+      const progress = Math.min(1, Math.max(0, scrolledInto / scrollableHeight));
+      const idx = Math.min(totalSlides - 1, Math.floor(progress * totalSlides));
+      setActiveIndex(idx);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [totalSlides]);
 
   return (
+    /* Tall scroll runway — one full viewport per service */
     <section
+      ref={containerRef}
       id="services"
-      className="relative py-24 lg:py-32"
       aria-label="Our services"
+      style={{ height: `${totalSlides * 100}vh` }}
+      className="relative w-full"
     >
-      {/* Section header */}
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 mb-16">
-        <SectionLabel text="What we do" />
-        <div className="mt-4 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-          <h2
-            className="font-display font-bold text-white leading-tight"
-            style={{ fontSize: "clamp(2.2rem, 4.5vw, 4rem)" }}
-          >
-            Four engines of growth.
-          </h2>
-          <p className="text-slate-400 text-base max-w-sm leading-relaxed font-sans">
-            An integrated suite of technology, digital and talent solutions designed around business outcomes.
-          </p>
-        </div>
-      </div>
-
-      {/* Desktop: large interactive panels */}
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 hidden md:flex gap-4">
+      {/* ── Sticky full-screen viewport ── */}
+      <div
+        style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden" }}
+        className="w-full"
+      >
+        {/*
+         * Stack ALL slides absolutely on top of each other.
+         * Active slide clips in from bottom (wipe-up reveal), inactive ones sit below.
+         */}
         {services.map((service, i) => {
-          const isActive = activeIndex === i;
+          const isActive = i === activeIndex;
+          const isPast   = i < activeIndex;
+
           return (
             <motion.div
               key={service.number}
-              onHoverStart={() => setActiveIndex(i)}
-              onHoverEnd={() => setActiveIndex(null)}
-              className="relative rounded-2xl border border-white/8 overflow-hidden cursor-pointer group"
               style={{
-                flex: isActive ? 2.2 : 1,
-                transition: "flex 0.5s cubic-bezier(0.16,1,0.3,1)",
-                background: isActive
-                  ? `linear-gradient(135deg, rgba(13,20,33,0.95), rgba(13,20,33,0.9))`
-                  : "rgba(13,20,33,0.7)",
+                position: "absolute",
+                inset: 0,
+                zIndex: isPast ? 10 + i : isActive ? 20 + i : 5 + i,
               }}
-              data-cursor="EXPLORE"
+              /* Wipe-up: slide in from bottom when becoming active */
+              initial={false}
+              animate={{
+                y: isPast ? 0 : isActive ? 0 : "100%",
+                clipPath: isPast
+                  ? "inset(0 0 0 0)"
+                  : isActive
+                  ? "inset(0 0 0 0)"
+                  : "inset(0 0 100% 0)",
+              }}
+              transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Glow border on hover */}
-              <div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                  boxShadow: `inset 0 0 0 1px ${service.accentColor}40`,
-                  background: `radial-gradient(ellipse at top, ${service.accentColor}10, transparent 60%)`,
-                }}
+              {/* Full-screen background image */}
+              <img
+                src={service.image}
+                alt={service.title}
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               />
 
-              <div className="p-8 h-full flex flex-col justify-between min-h-[360px]">
-                {/* Number */}
-                <div className="flex items-start justify-between">
-                  <motion.span
-                    animate={{
-                      fontSize: isActive ? "5rem" : "3rem",
-                      opacity: isActive ? 0.15 : 0.08,
-                    }}
-                    transition={{ duration: 0.4 }}
-                    className="font-display font-bold text-white leading-none select-none"
-                    aria-hidden="true"
-                  >
-                    {service.number}
-                  </motion.span>
-                  <motion.div
-                    animate={{ rotate: isActive ? 45 : 0, opacity: isActive ? 1 : 0.4 }}
-                    transition={{ duration: 0.3 }}
-                    style={{ color: service.accentColor }}
-                  >
-                    <ArrowRight size={20} />
-                  </motion.div>
+              {/* Overlays */}
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.85) 100%)",
+              }} />
+              <div style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(to right, rgba(0,0,0,0.6) 0%, transparent 60%)",
+              }} />
+
+              {/* ── TOP-LEFT: section label + heading (always same) ── */}
+              <div style={{ position: "absolute", top: 0, left: 0, zIndex: 20, padding: "2.5rem 3.5rem" }}>
+                <p style={{
+                  fontSize: "0.7rem", letterSpacing: "0.25em",
+                  textTransform: "uppercase", color: "rgba(255,255,255,0.45)",
+                  marginBottom: "0.5rem", fontFamily: "var(--font-inter, sans-serif)",
+                }}>
+                  What we do
+                </p>
+                <h2 style={{
+                  fontSize: "clamp(1.4rem, 2.2vw, 2rem)",
+                  fontFamily: "var(--font-syne, sans-serif)",
+                  fontWeight: 700, color: "#fff", lineHeight: 1.2,
+                }}>
+                  Four engines of growth.
+                </h2>
+              </div>
+
+              {/* ── BOTTOM-LEFT: service details ── */}
+              <div style={{
+                position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 20,
+                padding: "0 3.5rem 5rem",
+              }}>
+                {/* Number + tag */}
+                <span style={{
+                  display: "inline-block", fontSize: "0.7rem",
+                  letterSpacing: "0.2em", textTransform: "uppercase",
+                  color: service.accentColor,
+                  border: `1px solid ${service.accentColor}40`,
+                  borderRadius: "999px", padding: "0.25rem 0.75rem",
+                  marginBottom: "1rem",
+                  background: `${service.accentColor}12`,
+                  fontFamily: "var(--font-inter, sans-serif)",
+                }}>
+                  {service.number} — {service.tagline}
+                </span>
+
+                {/* Large title */}
+                <h3 style={{
+                  fontSize: "clamp(2.4rem, 5.5vw, 5rem)",
+                  fontFamily: "var(--font-syne, sans-serif)",
+                  fontWeight: 700, color: "#fff",
+                  lineHeight: 1.1, marginBottom: "1rem",
+                }}>
+                  {service.title}
+                </h3>
+
+                {/* Description */}
+                <p style={{
+                  color: "rgba(255,255,255,0.65)",
+                  fontSize: "clamp(0.95rem, 1.2vw, 1.1rem)",
+                  maxWidth: "480px", lineHeight: 1.7,
+                  fontFamily: "var(--font-inter, sans-serif)",
+                  marginBottom: "1.5rem",
+                }}>
+                  {service.description}
+                </p>
+
+                {/* Sub-items */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                  {service.items.map((item) => (
+                    <span key={item} style={{
+                      fontSize: "0.75rem",
+                      fontFamily: "var(--font-inter, sans-serif)",
+                      color: "rgba(255,255,255,0.7)",
+                      border: "1px solid rgba(255,255,255,0.15)",
+                      borderRadius: "999px",
+                      padding: "0.3rem 0.9rem",
+                      background: "rgba(255,255,255,0.05)",
+                    }}>
+                      {item}
+                    </span>
+                  ))}
                 </div>
 
-                {/* Content */}
-                <div className="mt-auto">
-                  <p
-                    className="text-xs font-sans font-medium uppercase tracking-widest mb-2"
-                    style={{ color: service.accentColor }}
-                  >
-                    {service.tagline}
-                  </p>
-                  <h3 className="font-display font-bold text-white text-xl mb-3">
-                    {service.title}
-                  </h3>
-
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                      >
-                        <p className="text-slate-400 text-sm leading-relaxed mb-4 font-sans">
-                          {service.description}
-                        </p>
-                        <ul className="space-y-2">
-                          {service.items.map((item, j) => (
-                            <motion.li
-                              key={item}
-                              initial={{ opacity: 0, x: -10 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ delay: j * 0.06, duration: 0.3 }}
-                              className="flex items-center gap-2 text-sm text-slate-300 font-sans"
-                            >
-                              <span
-                                className="w-1 h-1 rounded-full flex-shrink-0"
-                                style={{ background: service.accentColor }}
-                              />
-                              {item}
-                            </motion.li>
-                          ))}
-                        </ul>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                {/* Dot progress indicators */}
+                <div style={{ display: "flex", gap: "8px", marginTop: "2rem", alignItems: "center" }}>
+                  {services.map((_, di) => (
+                    <motion.div
+                      key={di}
+                      animate={{
+                        width: di === activeIndex ? 28 : 8,
+                        opacity: di === activeIndex ? 1 : 0.3,
+                        backgroundColor: di === activeIndex ? service.accentColor : "#ffffff",
+                      }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      style={{ height: 3, borderRadius: 999 }}
+                    />
+                  ))}
                 </div>
               </div>
-            </motion.div>
-          );
-        })}
-      </div>
 
-      {/* Mobile: accordion */}
-      <div className="md:hidden max-w-[1400px] mx-auto px-6 space-y-3">
-        {services.map((service, i) => {
-          const isOpen = mobileOpen === i;
-          return (
-            <div
-              key={service.number}
-              className="rounded-xl border border-white/8 overflow-hidden"
-              style={{ background: "rgba(13,20,33,0.8)" }}
-            >
-              <button
-                id={`service-accordion-${i}`}
-                className="w-full flex items-center justify-between p-5 text-left"
-                onClick={() => setMobileOpen(isOpen ? null : i)}
-                aria-expanded={isOpen}
-              >
-                <div className="flex items-center gap-3">
-                  <span
-                    className="text-xs font-display font-bold"
-                    style={{ color: service.accentColor }}
-                  >
-                    {service.number}
-                  </span>
-                  <span className="font-display font-bold text-white text-lg">
-                    {service.title}
-                  </span>
-                </div>
-                <motion.div
-                  animate={{ rotate: isOpen ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="text-slate-400 flex-shrink-0 ml-2"
-                >
-                  <ChevronDown size={20} />
-                </motion.div>
-              </button>
-
-              <AnimatePresence>
-                {isOpen && (
+              {/* ── RIGHT: slide counter ── */}
+              <div style={{
+                position: "absolute", right: "2.5rem", top: "50%",
+                transform: "translateY(-50%)", zIndex: 20,
+                display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem",
+              }}>
+                <span style={{
+                  color: "rgba(255,255,255,0.3)", fontSize: "0.7rem",
+                  letterSpacing: "0.15em", fontFamily: "var(--font-inter, sans-serif)",
+                }}>
+                  {String(i + 1).padStart(2, "0")}&nbsp;/&nbsp;{String(totalSlides).padStart(2, "0")}
+                </span>
+                <div style={{
+                  width: 1, height: 64,
+                  background: "rgba(255,255,255,0.1)",
+                  borderRadius: 999, overflow: "hidden", position: "relative",
+                }}>
                   <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden"
+                    style={{
+                      position: "absolute", top: 0, left: 0,
+                      width: "100%", background: service.accentColor, borderRadius: 999,
+                    }}
+                    animate={{ height: `${((activeIndex + 1) / totalSlides) * 100}%` }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                  />
+                </div>
+              </div>
+
+              {/* Scroll hint on first slide */}
+              {i === 0 && activeIndex === 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1 }}
+                  style={{
+                    position: "absolute", bottom: "5rem", right: "5rem",
+                    zIndex: 20, display: "flex", flexDirection: "column",
+                    alignItems: "center", gap: "6px",
+                  }}
+                >
+                  <motion.div
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+                    style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}
                   >
-                    <div className="px-5 pb-5 border-t border-white/5">
-                      <p className="text-slate-400 text-sm leading-relaxed mt-4 mb-3 font-sans">
-                        {service.description}
-                      </p>
-                      <ul className="space-y-2">
-                        {service.items.map((item) => (
-                          <li
-                            key={item}
-                            className="flex items-center gap-2 text-sm text-slate-300 font-sans"
-                          >
-                            <span
-                              className="w-1 h-1 rounded-full flex-shrink-0"
-                              style={{ background: service.accentColor }}
-                            />
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <span style={{
+                      fontSize: "0.6rem", letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.25)",
+                      fontFamily: "var(--font-inter,sans-serif)",
+                    }}>Scroll</span>
+                    <div style={{
+                      width: 1, height: 40,
+                      background: "linear-gradient(to bottom, rgba(255,255,255,0.25), transparent)",
+                    }} />
                   </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                </motion.div>
+              )}
+            </motion.div>
           );
         })}
       </div>
