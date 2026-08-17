@@ -24,13 +24,6 @@ export default function GrowthStatement() {
       className="relative py-32 lg:py-48 overflow-hidden"
       aria-label="Growth statement"
     >
-      {/* Background glow */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] blur-[140px] opacity-10 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse, #6366F1, transparent 70%)" }}
-        aria-hidden="true"
-      />
-
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <motion.div style={{ opacity, y }}>
           <div className="max-w-4xl mx-auto text-center">

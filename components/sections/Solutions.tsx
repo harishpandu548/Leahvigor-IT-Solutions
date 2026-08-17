@@ -40,7 +40,7 @@ export default function Solutions() {
       ref={containerRef}
       id="solutions"
       style={{ height: `${totalSlides * 100}vh` }}
-      className="relative w-full"
+      className="relative z-10 w-full bg-midnight"
       aria-label="Solutions section"
     >
       {/* ─── STICKY FULL-SCREEN PANEL ─── */}

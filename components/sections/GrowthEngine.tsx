@@ -208,6 +208,7 @@ export default function GrowthEngine() {
                     x1={p.x} y1={p.y} x2={CX} y2={CY}
                     stroke={pillars[key].color}
                     strokeDasharray="6 4"
+                    initial={{ strokeWidth: 1 }}
                     animate={{
                       opacity: hovered === key ? 0.8 : hovered === null ? 0.2 : 0.06,
                       strokeWidth: hovered === key ? 2 : 1,
@@ -249,6 +250,7 @@ export default function GrowthEngine() {
                     {/* Main circle */}
                     <motion.circle cx={p.x} cy={p.y} r={36}
                       fill="rgba(13,20,33,0.95)" stroke={pl.color}
+                      initial={{ strokeWidth: 1 }}
                       animate={{ strokeWidth: active ? 2 : 1, opacity: dimmed ? 0.3 : 1 }}
                       transition={{ duration: 0.3 }}
                     />

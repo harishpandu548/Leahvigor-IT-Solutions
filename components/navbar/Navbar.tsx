@@ -6,12 +6,12 @@ import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { X, Menu, ArrowUpRight } from "lucide-react";
 
 const navLinks = [
-  { label: "Services", href: "/services" },
+  { label: "Services", href: "/#services" },
   { label: "Solutions", href: "/#solutions" },
-  { label: "About", href: "/about" },
-  { label: "Work", href: "/work" },
-  { label: "Insights", href: "/insights" },
-  { label: "Contact", href: "/contact" },
+  { label: "Work", href: "/#work" },
+  { label: "About", href: "/#why-leahvigor" },
+  { label: "Process", href: "/#process" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -134,7 +134,7 @@ export default function Navbar() {
                 className="hidden lg:flex items-center gap-4"
               >
                 <Link
-                  href="/contact"
+                  href="/#contact"
                   className="group flex items-center gap-2 px-5 py-2.5 rounded-full border border-indigo-500/40 text-sm font-medium text-white hover:bg-indigo-500/10 hover:border-indigo-500/70 transition-all duration-300"
                   data-cursor="TALK"
                 >
@@ -235,7 +235,7 @@ export default function Navbar() {
             {/* Mobile CTA */}
             <div className="px-8 pb-10 pt-6">
               <Link
-                href="/contact"
+                href="/#contact"
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center justify-center gap-2 w-full py-4 rounded-full bg-gradient-to-r from-electric via-indigo to-violet text-white font-display font-bold text-lg hover:opacity-90 transition-opacity"
               >

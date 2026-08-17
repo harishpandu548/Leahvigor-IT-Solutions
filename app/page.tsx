@@ -10,10 +10,12 @@ import Process from "@/components/sections/Process";
 import FinalCTA from "@/components/sections/FinalCTA";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/footer/Footer";
+import Growth3DBackground from "@/components/sections/Growth3DBackground";
 
 export default function HomePage() {
   return (
     <main id="main-content" style={{ overflowX: "clip" }}>
+      <Growth3DBackground />
       <Hero />
       <GrowthStatement />
       <Services />

@@ -29,7 +29,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="relative py-24 lg:py-32 overflow-hidden"
+      className="relative z-10 py-32 lg:py-48 bg-midnight"
       aria-label="Client testimonials"
     >
       {/* BG glow */}

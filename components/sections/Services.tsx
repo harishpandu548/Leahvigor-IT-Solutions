@@ -63,7 +63,7 @@ export default function Services() {
       id="services"
       aria-label="Our services"
       style={{ height: `${totalSlides * 100}vh` }}
-      className="relative w-full"
+      className="relative z-10 w-full bg-midnight"
     >
       {/* ── Sticky full-screen viewport ── */}
       <div
