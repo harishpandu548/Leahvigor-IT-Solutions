@@ -70,7 +70,7 @@ export default function Navbar() {
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12 flex items-center justify-between">
           {/* Logo & Brand */}
           <Link
-            href="/"
+            href="/#hero"
             className="flex items-center gap-4 group"
             aria-label="LEAHVIGOR Solutions — Home"
           >
@@ -188,7 +188,7 @@ export default function Navbar() {
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
               <Link
-                href="/"
+                href="/#hero"
                 className="flex items-center gap-3"
                 onClick={() => setMobileOpen(false)}
               >

@@ -255,17 +255,67 @@ export default function Hero() {
           }}
           className="absolute inset-0 flex items-center justify-start px-8 lg:px-16 pointer-events-none z-10 max-w-[1400px] mx-auto w-full"
         >
-          <motion.h1
-            initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
-            transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display font-medium leading-tight tracking-[0.05em] uppercase text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-indigo-300 drop-shadow-[0_10px_30px_rgba(255,255,255,0.1)]"
-            style={{ 
-              fontSize: "clamp(2.5rem, 7vw, 7rem)",
-            }}
-          >
-            LEAHVIGOR
-          </motion.h1>
+          <motion.div className="relative inline-block">
+            <h1
+              className="font-display font-medium leading-tight tracking-[0.05em] uppercase flex"
+              style={{ 
+                fontSize: "clamp(2.5rem, 7vw, 7rem)",
+              }}
+            >
+              {"LEAHVIGOR".split("").map((letter, i) => {
+                // We create individual transforms for each letter for a true scroll-linked letter-by-letter exit!
+                // LEAHVIGOR has 9 letters. We stagger the exit so L fades first, then E, etc.
+                const exitStart = 20 + i * 15;
+                const exitEnd = exitStart + 30;
+                
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                const letterOpacity = useTransform(frameIndex, [1, exitStart, exitEnd], [1, 1, 0]);
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                const letterY = useTransform(frameIndex, [1, exitStart, exitEnd], [0, 0, -50]);
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                const letterScale = useTransform(frameIndex, [1, exitStart, exitEnd], [1, 1, 0.8]);
+
+                return (
+                  <motion.span
+                    key={i}
+                    style={{ 
+                      opacity: letterOpacity, 
+                      y: letterY, 
+                      scale: letterScale 
+                    }}
+                    className="relative inline-block"
+                  >
+                    {/* The entrance animation is handled by a wrapper span so it doesn't conflict with useTransform */}
+                    <motion.span
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ 
+                        duration: 0.8, 
+                        delay: 0.3 + i * 0.15, // Slow, deliberate letter-by-letter entrance
+                        ease: "easeOut" 
+                      }}
+                      className="inline-block text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-200"
+                      style={{
+                        // The requested blue around the letters
+                        WebkitTextStroke: "1px rgba(99,102,241,0.4)",
+                        filter: "drop-shadow(0 0 15px rgba(99,102,241,0.6))"
+                      }}
+                    >
+                      {letter}
+                    </motion.span>
+                  </motion.span>
+                );
+              })}
+            </h1>
+            
+            {/* Premium Blue Underline */}
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: 1, opacity: 1 }}
+              transition={{ duration: 1.5, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute -bottom-1 lg:-bottom-2 left-0 right-0 h-[3px] bg-gradient-to-r from-indigo-600 via-blue-400 to-cyan-400 origin-left rounded-full shadow-[0_0_20px_rgba(96,165,250,0.6)]"
+            />
+          </motion.div>
         </motion.div>
 
         {/* Bottom text overlays */}
@@ -280,15 +330,38 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ delay: 1.4, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-xl"
           >
-            <h2 className="font-sans text-2xl md:text-3xl lg:text-4xl text-white font-medium tracking-wide leading-tight drop-shadow-md mb-4">
-              Accelerate your <span className="text-indigo-400 italic font-display">growth.</span>
+            <h2 className="font-sans text-2xl md:text-3xl lg:text-4xl text-white font-medium tracking-wide leading-tight drop-shadow-md mb-4 flex flex-wrap gap-x-2">
+              {"Accelerate your".split(" ").map((word, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 1.6 + i * 0.1, ease: "easeOut" }}
+                  className="inline-block"
+                >
+                  {word}
+                </motion.span>
+              ))}
+              <motion.span 
+                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                transition={{ duration: 1, delay: 1.9, ease: [0.16, 1, 0.3, 1] }}
+                className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-cyan-400 italic font-display drop-shadow-[0_0_15px_rgba(56,189,248,0.4)]"
+              >
+                growth.
+              </motion.span>
             </h2>
-            <p className="font-sans text-sm md:text-base text-slate-300 font-light leading-relaxed max-w-sm">
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.2, duration: 1 }}
+              className="font-sans text-sm md:text-base text-slate-300 font-light leading-relaxed max-w-sm"
+            >
               Complexity is inevitable. How you harness it defines your future.
-            </p>
+            </motion.p>
           </motion.div>
         </motion.div>
 
