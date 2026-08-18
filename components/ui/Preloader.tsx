@@ -73,14 +73,12 @@ export default function Preloader() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="mb-16 relative w-[320px] h-[100px] md:w-[450px] md:h-[140px] lg:w-[600px] lg:h-[180px] flex justify-center items-center"
+            className="mb-16 relative w-[240px] md:w-[320px] lg:w-[400px] flex justify-center items-center"
           >
-            <Image
+            <img
               src="/logo/logo (2).png"
               alt="LEAHVIGOR Logo"
-              fill
-              className="object-contain drop-shadow-2xl relative z-10"
-              priority
+              className="w-full h-auto object-contain drop-shadow-2xl"
             />
           </motion.div>
 

@@ -37,6 +37,11 @@ export const metadata: Metadata = {
     "technology consultancy",
   ],
   authors: [{ name: "LEAHVIGOR Solutions Pvt. Ltd." }],
+  icons: {
+    icon: "/logo/logo (2).png",
+    shortcut: "/logo/logo (2).png",
+    apple: "/logo/logo (2).png",
+  },
   openGraph: {
     type: "website",
     locale: "en_IN",
@@ -45,12 +50,21 @@ export const metadata: Metadata = {
     title: "LEAHVIGOR Solutions | Accelerate Your Growth",
     description:
       "Leahvigor Solutions helps businesses accelerate growth through technology, digital strategy, talent acquisition and high-performance digital experiences.",
+    images: [
+      {
+        url: "/logo/logo (2).png",
+        width: 1200,
+        height: 630,
+        alt: "LEAHVIGOR Solutions Logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "LEAHVIGOR Solutions | Accelerate Your Growth",
     description:
       "Technology. Digital. Talent. One strategic partner to accelerate your growth.",
+    images: ["/logo/logo (2).png"],
   },
   robots: {
     index: true,
