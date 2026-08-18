@@ -52,16 +52,7 @@ export default function Chatbot() {
     }
   }, [messages, isLoading, isOpen]);
 
-  // Lock body scroll when chatbot is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => { document.body.style.overflow = "unset"; };
-  }, [isOpen]);
-
+  // (Removed scroll lock to allow background scrolling while chat is open)
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
     
