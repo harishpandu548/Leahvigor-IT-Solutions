@@ -61,7 +61,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative py-24 lg:py-32"
+      className="relative pt-24 lg:pt-32 pb-0"
       aria-label="Contact section"
     >
       {/* BG glow */}
@@ -315,43 +315,46 @@ export default function Contact() {
       </div>
 
       {/* GIANT HOVER TEXT */}
-      <div className="w-full mt-12 pb-6 overflow-visible cursor-default px-6 lg:px-12 max-w-[1600px] mx-auto">
+      <div className="w-full mt-12 pb-0 cursor-default px-6 lg:px-12 max-w-[1600px] mx-auto">
         <div className="flex justify-between w-full">
           {brandName.map((char, i) => (
             <motion.div
               key={i}
-              className="relative font-display font-light text-[clamp(4rem,15vw,22rem)] leading-[0.8] tracking-tighter select-none block cursor-pointer"
+              className="relative font-display font-bold text-[clamp(4rem,15vw,22rem)] leading-[0.8] tracking-tighter select-none block overflow-hidden group"
               initial="rest"
               whileHover="hover"
               animate="rest"
             >
-              {/* Background Pixelated Layer */}
+              {/* Initial Solid Letter */}
               <motion.span
                 variants={{
-                  rest: { opacity: 0, y: 0, scale: 0.95 },
-                  hover: { opacity: 1, y: -15, scale: 1.05 }
+                  rest: { y: 0, rotateX: 0, opacity: 1 },
+                  hover: { y: "-100%", rotateX: 90, opacity: 0 }
                 }}
-                transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                className="absolute inset-0 pointer-events-none select-none block"
-                style={{
-                  backgroundImage: "repeating-linear-gradient(0deg, #050505, #050505 2px, transparent 2px, transparent 6px), repeating-linear-gradient(90deg, #050505, #050505 2px, transparent 2px, transparent 6px), linear-gradient(135deg, #00d2ff, #00ffaa)",
-                  WebkitBackgroundClip: "text",
-                  backgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  color: "transparent"
-                }}
+                transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+                className="block text-white origin-bottom"
               >
                 {char}
               </motion.span>
 
-              {/* Foreground Solid White Layer */}
+              {/* Hover Image-Clipped Letter */}
               <motion.span
                 variants={{
-                  rest: { opacity: 1, y: 0 },
-                  hover: { opacity: 0, y: -15 }
+                  rest: { y: "100%", rotateX: -90, opacity: 0 },
+                  hover: { y: 0, rotateX: 0, opacity: 1 }
                 }}
-                transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                className="block text-white"
+                transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+                className="block absolute top-0 left-0 origin-top w-full text-center"
+                style={{
+                  backgroundImage: "url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1600&auto=format&fit=crop')",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  backgroundAttachment: "fixed",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  color: "transparent",
+                  WebkitTextStroke: "2px rgba(255,255,255,0.3)"
+                }}
               >
                 {char}
               </motion.span>

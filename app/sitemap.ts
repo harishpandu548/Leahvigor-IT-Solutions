@@ -1,5 +1,7 @@
 import { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://leahvigor.com";
   const lastModified = new Date();

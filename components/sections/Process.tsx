@@ -25,29 +25,31 @@ export default function Process() {
       <div className="absolute inset-0 grid-bg opacity-30" aria-hidden="true" />
 
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-        <SectionLabel text="How we work" />
-        <h2
-          className="font-display font-bold text-white leading-tight mt-4 mb-16 lg:mb-24 flex flex-wrap gap-x-[0.22em] gap-y-2 cursor-default"
-          style={{ fontSize: "clamp(2.2rem, 4.5vw, 4rem)" }}
-        >
-          {["From", "ambition", "to", "acceleration."].map((word, i) => {
-            const highlight = ["to", "acceleration."].includes(word);
-            return (
-              <motion.span
-                key={i}
-                whileHover={{ 
-                  scale: 1.05, 
-                  color: highlight ? "#A855F7" : "#8B5CF6",
-                  textShadow: highlight ? "0px 0px 20px rgba(168,85,247,0.6)" : "0px 0px 20px rgba(139,92,246,0.6)",
-                }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-                className={`inline-block transition-colors ${highlight ? "gradient-text" : ""}`}
-              >
-                {word}
-              </motion.span>
-            );
-          })}
-        </h2>
+        <div className="flex flex-col items-center text-center mb-16 lg:mb-24">
+          <SectionLabel text="How we work" className="mx-auto flex justify-center" />
+          <h2
+            className="font-display font-bold text-white leading-tight mt-4 flex flex-wrap justify-center gap-x-[0.22em] gap-y-2 cursor-default max-w-4xl mx-auto"
+            style={{ fontSize: "clamp(2.2rem, 4.5vw, 4rem)" }}
+          >
+            {["From", "ambition", "to", "acceleration."].map((word, i) => {
+              const highlight = ["to", "acceleration."].includes(word);
+              return (
+                <motion.span
+                  key={i}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    color: highlight ? "#A855F7" : "#8B5CF6",
+                    textShadow: highlight ? "0px 0px 20px rgba(168,85,247,0.6)" : "0px 0px 20px rgba(139,92,246,0.6)",
+                  }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className={`inline-block transition-colors ${highlight ? "gradient-text" : ""}`}
+                >
+                  {word}
+                </motion.span>
+              );
+            })}
+          </h2>
+        </div>
 
         {/* Desktop: horizontal timeline */}
         <div className="hidden lg:block">
@@ -141,6 +143,12 @@ export default function Process() {
               </motion.div>
             ))}
           </div>
+        </div>
+
+        <div className="mt-16 lg:mt-32 text-center relative z-10">
+          <p className="text-slate-400 text-xl lg:text-3xl leading-relaxed max-w-4xl mx-auto font-display font-medium">
+            Our proven four-step methodology ensures every project is executed with precision, transparency, and relentless focus on measurable ROI.
+          </p>
         </div>
       </div>
     </section>

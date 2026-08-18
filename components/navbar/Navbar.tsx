@@ -38,9 +38,32 @@ const linkVariants: Variants = {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 60);
+      
+      // Scrollspy logic
+      const sections = navLinks.map(link => link.href.split("#")[1]);
+      let current = "";
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          // If the element crosses the upper-middle of the screen
+          if (rect.top <= window.innerHeight * 0.4 && rect.bottom >= window.innerHeight * 0.4) {
+            current = section;
+          }
+        }
+      }
+      setActiveSection(current);
+    };
+    
+    // Initial check
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -71,33 +94,31 @@ export default function Navbar() {
           {/* Logo & Brand */}
           <Link
             href="/#hero"
-            className="flex items-center gap-4 group"
+            onClick={(e) => {
+              if (window.location.pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+            className="flex items-center gap-2 group"
             aria-label="LEAHVIGOR Solutions — Home"
           >
-            {scrolled && (
-              <motion.img
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                src="/logo.png"
-                alt="LEAHVIGOR Logo"
-                className="h-8 w-auto object-contain"
-                onError={(e) => {
-                  // Fallback if logo.png is missing
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
-            )}
+            <motion.img
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              src="/logo/logo (2).png"
+              alt="LEAHVIGOR Logo"
+              className="h-8 w-auto object-contain"
+            />
             
             <div className="flex items-center h-8">
-              {scrolled && (
-                <motion.span
-                  layoutId="brand-logo-text"
-                  className="font-display font-bold tracking-wide text-white text-lg lg:text-xl"
-                  style={{ transformOrigin: "left center" }}
-                >
-                  LEAHVIGOR
-                </motion.span>
-              )}
+              <motion.span
+                layoutId="brand-logo-text"
+                className="font-display font-bold tracking-wide text-white text-lg lg:text-xl"
+                style={{ transformOrigin: "left center" }}
+              >
+                LEAHVIGOR
+              </motion.span>
             </div>
           </Link>
 
@@ -110,16 +131,34 @@ export default function Navbar() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="hidden lg:flex items-center gap-1"
               >
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="relative px-4 py-2 text-sm font-sans text-slate-300 hover:text-white transition-colors group"
-                  >
-                    {link.label}
-                    <span className="absolute bottom-1 left-4 right-4 h-px bg-gradient-to-r from-electric to-violet scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                  </Link>
-                ))}
+                {navLinks.map((link) => {
+                  const sectionId = link.href.split("#")[1];
+                  const isActive = activeSection === sectionId;
+                  
+                  return (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      className={`relative flex flex-col items-center justify-center px-4 py-2 text-sm font-sans transition-colors group ${
+                        isActive ? "text-white font-bold" : "text-slate-300 hover:text-white hover:font-bold"
+                      }`}
+                    >
+                      {/* Invisible bold text to reserve maximum width and prevent layout shift */}
+                      <span className="font-bold h-0 invisible overflow-hidden" aria-hidden="true">
+                        {link.label}
+                      </span>
+                      {/* Visible text */}
+                      <span>{link.label}</span>
+                      
+                      {/* Active Underline - ONLY shows when isActive is true */}
+                      <span 
+                        className={`absolute bottom-1 left-4 right-4 h-[2px] rounded-full bg-gradient-to-r from-electric to-violet transition-transform duration-300 origin-left ${
+                          isActive ? "scale-x-100" : "scale-x-0"
+                        }`} 
+                      />
+                    </Link>
+                  );
+                })}
               </motion.div>
             )}
           </AnimatePresence>
@@ -192,9 +231,11 @@ export default function Navbar() {
                 className="flex items-center gap-3"
                 onClick={() => setMobileOpen(false)}
               >
-                <div className="w-8 h-8 bg-gradient-to-br from-electric to-violet rounded-sm flex items-center justify-center">
-                  <span className="text-white font-display font-bold text-sm">LV</span>
-                </div>
+                <img
+                  src="/logo/logo (2).png"
+                  alt="LEAHVIGOR Logo"
+                  className="h-7 w-auto object-contain"
+                />
                 <span className="font-display font-bold text-white text-lg">LEAHVIGOR</span>
               </Link>
               <button

@@ -14,8 +14,6 @@ export default function GrowthStatement() {
 
   const words1 = "Your business is ready to grow.".split(" ");
   const words2 = "Is your technology ready to keep up?".split(" ");
-  const body =
-    "Growth creates complexity. New customers, new teams, new systems and new challenges. Leahvigor helps businesses turn that complexity into an advantage.";
 
   return (
     <section
@@ -26,7 +24,7 @@ export default function GrowthStatement() {
     >
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         <motion.div style={{ opacity, y }}>
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="w-full mx-auto text-center">
             {/* H2 headline — split words */}
             <h2
               className="font-display font-bold text-white leading-tight mb-4 flex flex-wrap justify-center gap-x-[0.22em] gap-y-2 cursor-default"
@@ -100,15 +98,20 @@ export default function GrowthStatement() {
               className="w-24 h-px mx-auto mb-10 bg-gradient-to-r from-transparent via-indigo-500 to-transparent origin-center"
             />
 
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto font-sans"
+              className="text-slate-400 text-lg md:text-xl xl:text-2xl leading-relaxed w-full mx-auto font-sans flex flex-col gap-6"
             >
-              {body}
-            </motion.p>
+              <p>
+                Growth creates complexity. New customers, new teams, new systems, and entirely new challenges. At Leahvigor, we specialize in helping modern businesses turn that growing complexity into an unfair competitive advantage. 
+              </p>
+              <p>
+                Whether you need to architect scalable digital infrastructure, deploy predictive marketing engines, or recruit elite engineering talent, we bridge the gap between where your business is today, and where it demands to be tomorrow. We don&apos;t just consult; we execute. 
+              </p>
+            </motion.div>
           </div>
         </motion.div>
       </div>

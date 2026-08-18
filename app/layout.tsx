@@ -3,6 +3,8 @@ import { Inter, Syne } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/ui/CustomCursor";
 import Navbar from "@/components/navbar/Navbar";
+import Chatbot from "@/components/chatbot/Chatbot";
+import Preloader from "@/components/ui/Preloader";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -72,8 +74,10 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${syne.variable}`}>
       <body className="bg-midnight text-white font-sans antialiased">
         <CustomCursor />
+        <Preloader />
         <Navbar />
         {children}
+        <Chatbot />
       </body>
     </html>
   );

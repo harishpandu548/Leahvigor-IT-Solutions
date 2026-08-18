@@ -21,23 +21,11 @@ export default function CustomCursor() {
     }
 
     const handleMouseMove = (e: MouseEvent) => {
-      pos.current = { x: e.clientX, y: e.clientY };
-      if (cursorDotRef.current) {
-        cursorDotRef.current.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
+      if (cursorRingRef.current) {
+        // Center the 64x64 logo cursor exactly on the pointer (32px offset)
+        cursorRingRef.current.style.transform = `translate(${e.clientX - 32}px, ${e.clientY - 32}px)`;
       }
       setIsVisible(true);
-    };
-
-    const animate = () => {
-      const dx = pos.current.x - ringPos.current.x;
-      const dy = pos.current.y - ringPos.current.y;
-      ringPos.current.x += dx * 0.12;
-      ringPos.current.y += dy * 0.12;
-      if (cursorRingRef.current) {
-        const size = isHovering ? 48 : 32;
-        cursorRingRef.current.style.transform = `translate(${ringPos.current.x - size / 2}px, ${ringPos.current.y - size / 2}px)`;
-      }
-      rafRef.current = requestAnimationFrame(animate);
     };
 
     const handleMouseLeave = () => setIsVisible(false);
@@ -70,7 +58,6 @@ export default function CustomCursor() {
     };
 
     attachListeners();
-    rafRef.current = requestAnimationFrame(animate);
 
     const observer = new MutationObserver(attachListeners);
     observer.observe(document.body, { childList: true, subtree: true });
@@ -79,7 +66,6 @@ export default function CustomCursor() {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
-      cancelAnimationFrame(rafRef.current);
       observer.disconnect();
     };
   }, [isHovering]);
@@ -87,53 +73,43 @@ export default function CustomCursor() {
   if (isTouch) return null;
 
   return (
-    <>
-      {/* Dot */}
+    <div
+      ref={cursorRingRef}
+      className="fixed top-0 left-0 z-[999999] pointer-events-none"
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transition: "opacity 0.2s ease",
+        willChange: "transform",
+      }}
+    >
       <div
-        ref={cursorDotRef}
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-white z-[9999] pointer-events-none mix-blend-difference"
-        style={{
-          opacity: isVisible ? 1 : 0,
-          transition: "opacity 0.2s ease",
-          willChange: "transform",
-        }}
-      />
-      {/* Ring */}
-      <div
-        ref={cursorRingRef}
-        className="fixed top-0 left-0 z-[9998] pointer-events-none"
-        style={{
-          opacity: isVisible ? 1 : 0,
-          transition: "opacity 0.2s ease, width 0.3s ease, height 0.3s ease",
-          willChange: "transform",
-          width: isHovering ? 48 : 32,
-          height: isHovering ? 48 : 32,
-        }}
+        className={`relative transition-transform duration-300 flex flex-col items-center justify-center ${
+          isHovering ? "scale-125" : "scale-100"
+        }`}
       >
-        <div
-          className="w-full h-full rounded-full border flex items-center justify-center"
-          style={{
-            borderColor: isHovering
-              ? "rgba(99,102,241,0.8)"
-              : "rgba(255,255,255,0.3)",
-            backgroundColor: isHovering ? "rgba(99,102,241,0.1)" : "transparent",
-            transition: "border-color 0.3s ease, background-color 0.3s ease",
-          }}
-        >
-          <AnimatePresence>
-            {label && (
-              <motion.span
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                className="text-[8px] font-display font-bold text-indigo-400 tracking-widest uppercase whitespace-nowrap"
-              >
-                {label}
-              </motion.span>
-            )}
-          </AnimatePresence>
+        {/* The Logo Cursor */}
+        <div className="relative w-16 h-16 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
+          <img
+            src="/logo/logo (2).png"
+            alt=""
+            className="w-full h-full object-contain"
+          />
         </div>
+
+        {/* Hover Label */}
+        <AnimatePresence>
+          {label && (
+            <motion.span
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              className="absolute -bottom-6 text-[10px] font-display font-bold text-white tracking-widest uppercase whitespace-nowrap bg-indigo-600/80 px-2 py-0.5 rounded-sm backdrop-blur-md"
+            >
+              {label}
+            </motion.span>
+          )}
+        </AnimatePresence>
       </div>
-    </>
+    </div>
   );
 }

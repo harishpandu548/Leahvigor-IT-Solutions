@@ -54,6 +54,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Hide default cursor on desktop since we have a custom logo cursor */
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #050A14; }

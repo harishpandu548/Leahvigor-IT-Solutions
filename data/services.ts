@@ -11,21 +11,6 @@ export type Service = {
 export const services: Service[] = [
   {
     number: "01",
-    title: "Talent Acquisition",
-    tagline: "Find. Build. Grow.",
-    description:
-      "Build high-performing teams with strategic talent acquisition designed around your growth objectives.",
-    items: [
-      "Executive Search & Placement",
-      "Technical Recruiting",
-      "Volume Recruiting",
-      "Employer Branding",
-    ],
-    accentColor: "#8B5CF6",
-    image: "/services/telent.jpg",
-  },
-  {
-    number: "02",
     title: "Digital Growth",
     tagline: "Reach. Engage. Convert.",
     description:
@@ -37,7 +22,22 @@ export const services: Service[] = [
       "Social Media Management",
     ],
     accentColor: "#6366F1",
-    image: "/services/digi.jpg",
+    image: "/services/digi (1).webp",
+  },
+  {
+    number: "02",
+    title: "Talent Acquisition",
+    tagline: "Find. Build. Grow.",
+    description:
+      "Build high-performing teams with strategic talent acquisition designed around your growth objectives.",
+    items: [
+      "Executive Search & Placement",
+      "Technical Recruiting",
+      "Volume Recruiting",
+      "Employer Branding",
+    ],
+    accentColor: "#8B5CF6",
+    image: "/services/telent (1).webp",
   },
   {
     number: "03",
@@ -52,7 +52,7 @@ export const services: Service[] = [
       "Cybersecurity & Risk Assessment",
     ],
     accentColor: "#3B82F6",
-    image: "/services/it.jpg",
+    image: "/services/it (1).webp",
   },
   {
     number: "04",
@@ -67,6 +67,6 @@ export const services: Service[] = [
       "CMS & Platform Integration",
     ],
     accentColor: "#A855F7",
-    image: "/services/website.jpg",
+    image: "/services/website (1).webp",
   },
 ];
