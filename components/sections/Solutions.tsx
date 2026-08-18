@@ -226,12 +226,12 @@ export default function Solutions() {
                 top: 0,
                 left: 0,
                 width: "100%",
+                height: "100%",
                 background: "#818cf8",
                 borderRadius: 999,
-                originY: 0
+                transformOrigin: "top",
+                scaleY: scrollYProgress
               }}
-              // Scale the progress bar directly from 0 to 1
-              style={{ scaleY: scrollYProgress, background: "#818cf8", width: "100%", height: "100%", transformOrigin: "top" }}
             />
           </div>
         </div>

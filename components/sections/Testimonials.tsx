@@ -7,7 +7,7 @@ import { testimonials } from "@/data/testimonials";
 import SectionLabel from "@/components/ui/SectionLabel";
 
 // Awwwards-style text stagger effect
-const wordVariants = {
+const wordVariants: any = {
   initial: { y: "120%", opacity: 0 },
   animate: { 
     y: "0%", 
